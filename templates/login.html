@@ -1,0 +1,33 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div id="main_part_inner">
+      <div id="main_part_inner_in">
+        <h2>Login</h2>
+      </div>
+    </div>
+    <div id="content_inner">
+      <section>
+        <!-- insert the page content here -->
+        <h1>Login</h1>
+        <form method="post" action="/login">
+    <p>
+    <label for="teamname">Team name:</label>
+    <input type="text" id="teamname" name="teamname" size="40" </p>
+    <p>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="pw" size="40" /></p>
+
+    <p><input type="submit" value="Login" name="submit" /></p>
+  </form>
+        
+        
+      </section>
+  <aside id="sidebar">&nbsp;</aside>
+</div>
+        
+ 
+        
+{% endblock %}

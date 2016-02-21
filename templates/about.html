@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="main_part_inner">
+  <div id="main_part_inner_in">
+    <h2>About us</h2>
+    <!--<div class="button_main"> <a href="#" class="button_dark">INCIDIDUNT</a> </div>-->
+  </div>
+</div>
+<div id="content_inner">
+  <h3>Our Team</h3>
+  <h2>The Coach Of The Week this week is {{coachoftheweek}}</h2>
+  <p class ="teamline">This team of very accomplished coaches has over 80 years of experience in the baseball coaching profession!</p>
+  <div class="sixths_team">
+    <h4>Find out more<br>
+      <span>about him</span> </h4>
+    <a href="#"><img src="static/img/team_member1.jpg" width = 150 alt=""></a> <a href="#" class="profession">Blogger</a> </div>
+  <div class="sixths_team">
+    <h4>Find out more<br>
+      <span>about it</span> </h4>
+    <a href="#"><img src="static/img/team_member2.jpg" width = 150 alt=""></a> <a href="#" class="profession">High School/College Hitting Coach</a> </div>
+  <div class="sixths_team">
+    <h4>Find out more<br>
+      <span>about him</span> </h4>
+    <a href="#"><img src="static/img/team_member3.jpg" width = 150 alt=""></a> <a href="#" class="profession">Softball Hitting Coach</a> </div>
+  <div class="sixths_team">
+    <h4>Find out more<br>
+      <span>about her</span> </h4>
+    <a href="#"><img src="static/img/team_member4.jpg" width = 150 alt=""></a> <a href="#" class="profession">Youth Hitting Coach</a> </div>
+  <hr class="cleanit">
+  <div class="history_blok">
+    <h3>A bit of our history</h3>
+    <img src="static/styles/design/milestones.png" alt="" class="milestones">
+    <div class="milestone1">
+      <h4 class="miles"> <b>12/19/16</b> <br>
+        It begins! </h4>
+      <p class="descr">Created blog!</p>
+    </div>
+    <div class="milestone2">
+      <h4 class="miles"> <b>12/20/16</b> <br>
+        Expanding </h4>
+      <p class="descr">We're 1 day old!</p>
+    </div>
+    <div class="milestone3">
+      <h4 class="miles"> <b>12/21/2016</b> <br>
+        Great Success! </h4>
+      <p class="descr">2 days!</p>
+    </div>
+    <hr class="cleanit">
+  </div>
+  
+  {% endblock %}

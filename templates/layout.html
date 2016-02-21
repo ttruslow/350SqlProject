@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>StatTrack</title>
+<meta charset="utf-8">
+<script src="static/js/jquery.tools.min.js"></script>
+<link rel="stylesheet" href="static/styles/reset.css" type="/text/css">
+<link rel="stylesheet" href="static/styles/styl.css" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<div id="header">
+  <div id="header_in">
+    <h1><a href="/"><b>StatTrack</b></a></h1>
+    <div id="menu">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li {% if selectedMenu == "loggedOut" %} class="selected" {% endif %}>
+        <li><a href="about">About</a></li>
+        {% if selectedMenu == "loggedOut" %}
+        <li><a href="createTeam">Create Team</a></li>
+        <li><a href="login">Login</a></li>
+        {% endif %}
+        {% if selectedMenu == "loggedIn" %}
+        <li><a href="myTeam">My Team</a></li>
+        <li><a href="logout">Log Out</a></li>
+        <li><a>Current user: {{user[0]}}</a></li>
+        {% endif %}
+        
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+{%block content %}{%endblock %}
+
+<hr class="cleanit">
+<div id="footer">
+  <div id="footer_in">
+    <p>Copyright &copy; 2045 <a href="#">Site Name</a>. All Rights Reserved</p>
+    <span>Design By: <a href="http://ries.cz">Vil&eacute;m Ries</a></span></div>
+</div>
+<script>
+$(function () {
+    $("ul.controls").tabs("div.testimonials > div");
+});
+</script>
+</body>
+</html>

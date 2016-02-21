@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="main_part">
+  <div id="main_part_in">
+    <h2>StatTrack</h2>
+    <p>The free way to keep track of all of your team's statistics</p>
+  </div>
+  <div class="button_main">
+    <div class="pxline"></div>
+    <a href="/createTeam" class="button_dark">Sign Up</a> </div>
+</div>
+
+<div id="content">
+  <div class="thirds">
+    <h3>Information regarding our next web chat:</h3>
+    <p> Date: {{livechatinfo.date}}<br /> Time: {{livechatinfo.time}}<br /> Subject: {{livechatinfo.subject}}</p>
+  </div>
+  <div class="thirds">
+    <h3>Coach available for chat?</h3>
+    {% if coachAvailable %}
+    <p> Yes!</p>
+    {% else %}
+    <p> No. Please try again tomorrow!</p>
+    {% endif %}
+  </div>
+  <hr class="cleanit">
+    <h3>About Us</h3>
+    <p class="about">This is a website, created by Tyler Truslow, which is a place for hitters of any age to learn the skills which are essential to being a successful hitter at their respective level. </p>
+    <a href="about" class="button_light">LEARN MORE</a> </div>
+  <div class="testimonials">
+    <div class="quote">Working with these guys was absolutely amazing. I swear! Pleasure to work with them!</div>
+    <div class="quote">Best hitting site out there!</div>
+    <div class="quote">Great tips! Helped me tear the cover off the ball this spring! :/.</div>
+    <span class="testimonials_bottom"></span>
+    <ul class="controls">
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
+      <li><a href="#"></a></li>
+    </ul>
+    <span class="by">Testimonials</span> </div>
+</div>
+
+{% endblock %}
+

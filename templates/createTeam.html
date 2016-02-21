@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="main_part_inner">
+  <div id="main_part_inner_in">
+    <h2>Create Team</h2>
+  </div>
+</div>
+<div id="content_inner">
+  <section>
+  <h1>Create your team!</h1>
+        <form method="post" action="/createTeam">
+            <table>
+            <tr><td><p>
+            <label for="teamName">Team name:</label>
+            <input type="text" id="teamname" name="teamname" size="40" /></p></td></tr>
+            <tr><td><p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="pw" size="40" /></p></td></tr>
+            <tr><td><p>
+            <label for="password2">Password again:</label>
+            <input type="password2" id="password2" name="pw2" size="40" /></p></p></td></tr>
+
+            <tr><td><p><input type="submit" value="Create User" name="submit" /></p></td></tr>
+        </form>
+    
+        </table>
+  </section>
+  <aside id="sidebar">&nbsp;</aside>
+</div>
+
+  {% endblock %}
