@@ -27,7 +27,7 @@ def mainIndex():
         user = ['Not Logged In','']
         print("INDEX: NOT IN SESSION")
         selectedMenu = 'loggedOut'
-    livechatinfo = {'date': 'January 30th', 'time': '7:00', 'subject': 'College Recruiting'}
+    livechatinfo = {'date': 'March 15th', 'time': '7:00', 'subject': 'StatTrack\'s newest features'}
     coachAvailable = False
     return render_template('index.html', livechatinfo = livechatinfo, coachAvailable = coachAvailable, user=user, selectedMenu=selectedMenu)
     
@@ -48,6 +48,7 @@ def showAbout():
     
 @app.route('/createTeam', methods=['GET','POST'])
 def teamCreate():
+    printError = 'no'
     if 'teamName' in session:
         print("INDEX: IN SESSION")
         user = [session['teamName'], session['password']]
@@ -58,20 +59,31 @@ def teamCreate():
         selectedMenu = 'loggedOut'
     conn = connectToDb()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    error = 'no'
     if request.method == 'POST':
         teamname = request.form['teamname']
         password = request.form['pw']
-        insertTeam = "INSERT INTO teams (teamname, password)  VALUES ('%s', crypt(\'%s\', gen_salt('bf')));" % (teamname, password)
-        print (insertTeam)
-        try:
-            cur.execute(insertTeam)
-        except:
-            print("ERROR inserting into teams")
-            print("""INSERT INTO teams (teamname, password)  VALUES ('%s', crypt('%s', gen_salt('bf')));""", (teamname, password) )
-            conn.rollback()
+        password2 = request.form['pw2']
+        if password == password2:
+            insertTeam = "INSERT INTO teams (teamname, password)  VALUES ('%s', crypt(\'%s\', gen_salt('bf')));" % (teamname, password)
+            print (insertTeam)
+            try:
+                cur.execute(insertTeam)
+            except:
+                error = 'yes'
+                print("ERROR inserting into teams")
+                print("""INSERT INTO teams (teamname, password)  VALUES ('%s', crypt('%s', gen_salt('bf')));""", (teamname, password) )
+                conn.rollback()
+                
+                
+        else:
+            printError = 'yes'
+            error = 'yes'
+        if error == 'no':
+            return redirect(url_for('logIn'))
     conn.commit()
               
-    return render_template('createTeam.html', user=user, selectedMenu=selectedMenu)
+    return render_template('createTeam.html', user=user, selectedMenu=selectedMenu, printError=printError)
     
 @app.route('/login', methods=['GET','POST'])
 def logIn(): 
@@ -92,7 +104,7 @@ def logIn():
             print "Successful login"
             user = [session['teamName'], session['password']]
             print(user)
-            return redirect(url_for('mainIndex'))
+            return redirect(url_for('teamPage'))
             
         else:
             print "Unsuccessful login"
@@ -109,6 +121,8 @@ def teamPage():
         user = ['Not Logged In','']
         print("INDEX: NOT IN SESSION")
         selectedMenu = 'loggedOut'
+        
+
 
     return render_template('myTeam.html', user=user, selectedMenu=selectedMenu)
     

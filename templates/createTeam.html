@@ -9,27 +9,25 @@
     <h2>Create Team</h2>
   </div>
 </div>
-<div id="content_inner">
+{% if printError == 'yes' %}
+<center><h2>Error! Your passwords did not match. Please try again!</h2></center>
+{% endif %}
+<center><div id="content_inner">
   <section>
-  <h1>Create your team!</h1>
+        
         <form method="post" action="/createTeam">
-            <table>
-            <tr><td><p>
-            <label for="teamName">Team name:</label>
-            <input type="text" id="teamname" name="teamname" size="40" /></p></td></tr>
-            <tr><td><p>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="pw" size="40" /></p></td></tr>
-            <tr><td><p>
-            <label for="password2">Password again:</label>
-            <input type="password2" id="password2" name="pw2" size="40" /></p></p></td></tr>
-
-            <tr><td><p><input type="submit" value="Create User" name="submit" /></p></td></tr>
+          <fieldset>
+          <p><label class="input" for="teamName">Team name:</label><input type="text" id="teamname" name="teamname" size="40" /></p>
+          <p><label class="input" for="password">Password:</label><input type="password" id="password" name="pw" size="40" /></p>
+          <p><label class="input" for="password2">Password again:</label><input type="password" id="password2" name="pw2" size="40" /></p>
+          </fieldset>
+          <center><p><input type="submit" value="Create User" name="submit" /></p></center>
+          
         </form>
     
         </table>
   </section>
   <aside id="sidebar">&nbsp;</aside>
-</div>
+</div></center>
 
   {% endblock %}

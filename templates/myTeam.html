@@ -6,15 +6,30 @@
 
 <div id="main_part_inner">
   <div id="main_part_inner_in">
-    <h2>My Team</h2>
+    <h2>{{user[0]}} Homepage</h2>
   </div>
 </div>
 <div id="content_inner">
   <section>
-  <h1>{{user[0]}}'s Homepage!</h1>
+  <div id="content">
+  <div class="thirds">
+    <h3>Add New Player:</h3>
+    <form method="post" action="/myTeam">
+            <table>
+            <tr><td><p>
+            <label for="playerName">Name:</label>
+            <input type="text" id="playername" name="playername" size="40" /></p></td></tr>
+            <tr><td><p><input type="submit" value="Add Player" name="addPlayer" /></p></td></tr>
+            </table>
+        </form>
+  </div>
+  <div class="input">
+    <h3></h3>
+    
+  </div>
         
     
-        </table>
+        
   </section>
   <aside id="sidebar">&nbsp;</aside>
 </div>

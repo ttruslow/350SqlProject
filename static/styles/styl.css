@@ -173,3 +173,25 @@ form.formit .button_submit{cursor:pointer; background-color:#e66e0d; width:200px
 .banner1 p{font-weight:200; font-size:20pt; display:block; width:630px; text-shadow:0 1px #000}
 .banner1 p b{color:#fff; font-weight:300}
 .banner1 a.button_dark{width:100px; position:absolute; right:42px; top:30px}
+
+/*--------------------------------------*/
+fieldset {
+  width: 500px;
+}
+legend {
+  font-size: 20px;
+}
+label.input {
+  text-align:right;
+  width: 100px;
+  float: left;
+  font-weight: bold;
+}
+input.textbox-300 {
+  width: 300px;
+  float:left;
+}
+fieldset p{
+  clear: both;
+  padding: 5px;
+}
