@@ -60,30 +60,36 @@ def teamCreate():
     conn = connectToDb()
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     error = 'no'
+    teamexists = 'no'
     if request.method == 'POST':
         teamname = request.form['teamname']
         password = request.form['pw']
         password2 = request.form['pw2']
-        if password == password2:
-            insertTeam = "INSERT INTO teams (teamname, password)  VALUES ('%s', crypt(\'%s\', gen_salt('bf')));" % (teamname, password)
-            print (insertTeam)
-            try:
-                cur.execute(insertTeam)
-            except:
-                error = 'yes'
-                print("ERROR inserting into teams")
-                print("""INSERT INTO teams (teamname, password)  VALUES ('%s', crypt('%s', gen_salt('bf')));""", (teamname, password) )
-                conn.rollback()
-                
-                
-        else:
-            printError = 'yes'
+        cur.execute("select * from teams where teamname = %s;", (teamname,))
+        if cur.fetchone():
+            teamexists = 'yes'
             error = 'yes'
+        else:
+            if password == password2:
+                insertTeam = "INSERT INTO teams (teamname, password)  VALUES (%s, crypt(%s, gen_salt('bf')));", (teamname, password)
+                print (insertTeam)
+                try:
+                    cur.execute("INSERT INTO teams (teamname, password)  VALUES (%s, crypt(%s, gen_salt('bf')));", (teamname, password))
+                except:
+                    error = 'yes'
+                    print("ERROR inserting into teams")
+                    print("INSERT INTO teams (teamname, password)  VALUES (%s, crypt(%s, gen_salt('bf')));", (teamname, password) )
+                    conn.rollback()
+                    
+                conn.commit()        
+            else:
+                printError = 'yes'
+                error = 'yes'
         if error == 'no':
             return redirect(url_for('logIn'))
-    conn.commit()
+    
               
-    return render_template('createTeam.html', user=user, selectedMenu=selectedMenu, printError=printError)
+    return render_template('createTeam.html', user=user, selectedMenu=selectedMenu, printError=printError, teamexists=teamexists)
     
 @app.route('/login', methods=['GET','POST'])
 def logIn(): 
@@ -112,19 +118,47 @@ def logIn():
     
 @app.route('/myTeam', methods=['GET','POST'])
 def teamPage():
+    conn = connectToDb()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     user=['','']
     if 'teamName' in session:
         print("INDEX: IN SESSION")
         user = [session['teamName'], session['password']]
         selectedMenu = 'loggedIn'
+        team = session['teamName']  
     else:
         user = ['Not Logged In','']
         print("INDEX: NOT IN SESSION")
         selectedMenu = 'loggedOut'
+        team = ''
+      
+    if request.method == 'POST':
+        print("Request method is POST")
+        if request.form['submit'] == 'Add Player':
+            firstname = request.form['firstname']
+            lastname = request.form['lastname']
+            position = request.form['position']
+            number = request.form['number']
+            team = session['teamName']
+            print("Player info: %s %s %s %s %s", (firstname, lastname, position, number, team))
+            try:
+                cur.execute("insert into players (lastname, firstname, position, number, team) VALUES (%s, %s, %s, %s, %s);", (lastname, firstname, position, number, team))
+            except:
+                    print("ERROR inserting into players")
+                    print ("TRIED: insert into players (lastname, firstname, position, number, team) VALUES (%s, %s, %s, %s, %s);", (lastname, firstname, position, number, team))
+                    conn.rollback()
+            conn.commit()
+        if request.form['submit'] == 'Select Player':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))        
         
-
-
-    return render_template('myTeam.html', user=user, selectedMenu=selectedMenu)
+    else:
+        print("Request method is GET")
+    
+    cur.execute("select firstname, lastname, number, position, playerid, hits, doubles, triples, homeruns, rbi, walks, runs, stolenbases, ab from players where team = %s;", (team,))
+    playerList = cur.fetchall();
+        
+    return render_template('myTeam.html', user=user, selectedMenu=selectedMenu, playerList = playerList)
     
 @app.route('/logout')
 def logout():

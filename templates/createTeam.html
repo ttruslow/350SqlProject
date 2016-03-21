@@ -12,6 +12,9 @@
 {% if printError == 'yes' %}
 <center><h2>Error! Your passwords did not match. Please try again!</h2></center>
 {% endif %}
+{% if teamexists == 'yes' %}
+<center><h2>This team-name already exists. Please try a different one!</h2></center>
+{% endif %}
 <center><div id="content_inner">
   <section>
         

@@ -17,17 +17,75 @@
     <form method="post" action="/myTeam">
             <table>
             <tr><td><p>
-            <label for="playerName">Name:</label>
-            <input type="text" id="playername" name="playername" size="40" /></p></td></tr>
-            <tr><td><p><input type="submit" value="Add Player" name="addPlayer" /></p></td></tr>
+            <label>First Name: </label><input type="text" id="firstname" name="firstname" size="40" /></p></td></tr>
+            <label>Last Name: </label><input type="text" id="lastname" name="lastname" size="40" /></p></td></tr>
             </table>
-        </form>
-  </div>
-  <div class="input">
-    <h3></h3>
-    
-  </div>
         
+            <label for="number">Uniform Number: </label><input type="number" name="number" id="number" min="0" max="99" step="1" value ="0"/>
+            <select name = "position">
+              <option value="P">P</option>
+              <option value="C">C</option>
+              <option value="1B">1B</option>
+              <option value="2B">2B</option>
+              <option value="3B">3B</option>
+              <option value="SS">SS</option>
+              <option value="OF">OF</option>
+              <option value="Util">Utility</option>
+            </select>
+            <tr><td><p><input type="submit" name="submit" value="Add Player"></p></td></tr>
+    </form>
+  </div>
+  <div class="thirds">
+    <h3>Select Player:</h3>
+    <form method="post" action="/myTeam">
+      <select>
+        {% for player in playerList %}
+        <option name="player" value="{{player[4]}}" >#{{player[2]}}   {{player[0]}} {{player[1]}}</option>
+        {% endfor %}
+      </select>
+      <!--<input type="submit" name="submit" value="Select Player"> -->
+    </form>
+
+  </div>
+  <hr class="cleanit">
+    <section>
+	    <table border="1">
+    	  <h1>Team Statistics </h1>
+    	  <tr>
+    	  <td>Num</td>
+    	  <td>Name</td>
+    	  <td>Pos</td>
+    	  <td>H</td>
+    	  <td>2B</td>
+    	  <td>3B</td>
+    	  <td>HR</td>
+    	  <td>RBI</td>
+    	  <td>BB</td>
+    	  <td>R</td>
+    	  <td>SB</td>
+    	  <td>AB</td>
+    	  </tr>
+    	  {% for player in playerList %}
+      	<tr>
+      	<td>{{player[2]}}</td>
+      	<td>{{player[1]}}, {{player[0]}} </td>
+      	<td>{{player[3]}}</td>
+      	<td>{{player[5]}}</td>
+      	<td>{{player[6]}}</td>
+      	<td>{{player[7]}}</td>
+      	<td>{{player[8]}}</td>
+      	<td>{{player[9]}}</td>
+      	<td>{{player[10]}}</td>
+      	<td>{{player[11]}}</td>
+      	<td>{{player[12]}}</td>
+      	<td>{{player[13]}}</td>
+      	</tr>
+      	{% endfor %} 
+	    </table>
+    </section>
+    
+  </hr>
+    
     
         
   </section>
