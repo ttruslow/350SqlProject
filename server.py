@@ -148,14 +148,87 @@ def teamPage():
                     print ("TRIED: insert into players (lastname, firstname, position, number, team) VALUES (%s, %s, %s, %s, %s);", (lastname, firstname, position, number, team))
                     conn.rollback()
             conn.commit()
-        if request.form['submit'] == 'Select Player':
+        if request.form['submit'] == 'Submit Result':
             playerchosen = request.form['player']
-            print("playerchosen: %s", (playerchosen,))        
+            rbis = request.form['rbi']
+            result = request.form['stat']
+            print("playerchosen: %s", (playerchosen,))
+            if result == 'single':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set singles = singles + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set rbi = rbi + %s where playerid = %s;", (rbis, playerchosen))
+            if result == 'double':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set doubles = doubles + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set rbi = rbi + %s where playerid = %s;", (rbis, playerchosen))
+            if result == 'triple':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set triples = triples + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set rbi = rbi + %s where playerid = %s;", (rbis, playerchosen))
+            if result == 'homerun':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set homeruns = homeruns + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set runs = runs + 1 where playerid = %s;", (playerchosen,))
+                if rbis == 0:
+                    cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
+                else:
+                    cur.execute("update players set rbi = rbi + %s where playerid = %s;", (rbis, playerchosen))
+            if result == 'walk':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set walks = walks + 1 where playerid = %s;", (playerchosen,))
+                if rbis == 1:
+                    cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
+            if result == 'hitbypitch':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hitbypitch = hitbypitch + 1 where playerid = %s;", (playerchosen,))
+                if rbis == 1:
+                    cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
+            if result == 'flyout':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set flyouts = flyouts + 1 where playerid = %s;", (playerchosen,))
+            if result == 'groundout':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set groundouts = groundouts + 1 where playerid = %s;", (playerchosen,))
+                if rbis == 1:
+                    cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
+            if result == 'onbyerror':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set onbyerror = onbyerror + 1 where playerid = %s;", (playerchosen,))
+                if rbis == 1:
+                    cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
+            if result == 'strikeout':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set strikeouts = strikeouts + 1 where playerid = %s;", (playerchosen,))
+            if result == 'sacbunt':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                if rbis == 1:
+                    cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
+            if result == 'sacfly':
+                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
+                if rbis == 1:
+                    cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
+            if result == 'stolenbase':
+                cur.execute("update players set stolenbases = stolenbases + 1 where playerid = %s;", (playerchosen,))
+            if result == 'runscored':
+                cur.execute("update players set runs = runs + 1 where playerid = %s;", (playerchosen,))
         
     else:
         print("Request method is GET")
     
-    cur.execute("select firstname, lastname, number, position, playerid, hits, doubles, triples, homeruns, rbi, walks, runs, stolenbases, ab from players where team = %s;", (team,))
+    conn.commit()
+    cur.execute("select firstname, lastname, number, position, playerid, hits, doubles, triples, homeruns, rbi, walks, runs, stolenbases, ab, strikeouts, hitbypitch, onbyerror, pa from players where team = %s;", (team,))
     playerList = cur.fetchall();
         
     return render_template('myTeam.html', user=user, selectedMenu=selectedMenu, playerList = playerList)

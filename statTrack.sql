@@ -39,6 +39,7 @@ ab int NOT NULL default 0,
 pa int NOT NULL default 0,
 position varchar(4) NOT NULL default '',
 number int NOT NULL default 0,
+hitbypitch int NOT NULL default 0,
 primary key(playerid) );
 
 GRANT all ON players to tracker;

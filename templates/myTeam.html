@@ -15,11 +15,11 @@
   <div class="thirds">
     <h3>Add New Player:</h3>
     <form method="post" action="/myTeam">
-            <table>
+            
             <tr><td><p>
             <label>First Name: </label><input type="text" id="firstname" name="firstname" size="40" /></p></td></tr>
             <label>Last Name: </label><input type="text" id="lastname" name="lastname" size="40" /></p></td></tr>
-            </table>
+            
         
             <label for="number">Uniform Number: </label><input type="number" name="number" id="number" min="0" max="99" step="1" value ="0"/>
             <select name = "position">
@@ -35,50 +35,84 @@
             <tr><td><p><input type="submit" name="submit" value="Add Player"></p></td></tr>
     </form>
   </div>
-  <div class="thirds">
-    <h3>Select Player:</h3>
+  <div class="thirds" align = "right">
+    <h3>Log Statistic:</h3>
     <form method="post" action="/myTeam">
-      <select>
+      <p><select name="player">
         {% for player in playerList %}
-        <option name="player" value="{{player[4]}}" >#{{player[2]}}   {{player[0]}} {{player[1]}}</option>
+        <option name="player" value="{{player[4]}}" >#{{player[2]}}   {{player[0]}} {{player[1]}} </option>
         {% endfor %}
-      </select>
-      <!--<input type="submit" name="submit" value="Select Player"> -->
+      </select></p>
+      <p><select name="stat">
+        <option value="single" >Single</option>
+        <option value="double" >Double</option>
+        <option value="triple" >Triple</option>
+        <option value="homerun" >Homerun</option>
+        <option value="walk" >Walk</option>
+        <option value="hitbypitch" >Hit By Pitch</option>
+        <option value="flyout" >Flyout</option>
+        <option value="groudout" >Groundout</option>
+        <option value="onbyerror" >On By Error</option>
+        <option value="strikeout" >Strikeout</option>
+        <option value="sacbunt" >Sac Bunt</option>
+        <option value="sacfly" >Sac Fly</option>
+        <option value="stolenbase" >Stolen Base</option>
+        <option value="runscored" >Run Scored</option>
+      </select></p>
+      <p><label for="rbi">RBI: </label><input type="number" name="rbi" id="rbi" min="0" max="4" step="1" value ="0"/></p>
+      <input type="submit" name="submit" value="Submit Result">
     </form>
 
   </div>
   <hr class="cleanit">
     <section>
 	    <table border="1">
-    	  <h1>Team Statistics </h1>
+    	  <h1>Team Statistics:</h1>
     	  <tr>
     	  <td>Num</td>
     	  <td>Name</td>
     	  <td>Pos</td>
+    	  <td>AB</td>
+    	  <td>R</td>
     	  <td>H</td>
     	  <td>2B</td>
     	  <td>3B</td>
     	  <td>HR</td>
     	  <td>RBI</td>
     	  <td>BB</td>
-    	  <td>R</td>
+    	  <td>K</td>
     	  <td>SB</td>
-    	  <td>AB</td>
+    	  <td>AVG</td>
+    	  <td>OBP</td>
+    	  
+    	  
     	  </tr>
     	  {% for player in playerList %}
       	<tr>
-      	<td>{{player[2]}}</td>
-      	<td>{{player[1]}}, {{player[0]}} </td>
-      	<td>{{player[3]}}</td>
-      	<td>{{player[5]}}</td>
-      	<td>{{player[6]}}</td>
-      	<td>{{player[7]}}</td>
-      	<td>{{player[8]}}</td>
-      	<td>{{player[9]}}</td>
-      	<td>{{player[10]}}</td>
-      	<td>{{player[11]}}</td>
-      	<td>{{player[12]}}</td>
-      	<td>{{player[13]}}</td>
+      	<td>{{player[2]}}</td> <!-- num -->
+      	<td>{{player[1]}}, {{player[0]}} </td> <!-- name -->
+      	<td>{{player[3]}}</td> <!-- pos -->
+      	<td>{{player[13]}}</td> <!-- ab -->
+      	<td>{{player[11]}}</td> <!-- runs -->
+      	<td>{{player[5]}}</td> <!-- hits -->
+      	<td>{{player[6]}}</td> <!-- 2b -->
+      	<td>{{player[7]}}</td> <!-- 3b -->
+      	<td>{{player[8]}}</td> <!-- hr -->
+      	<td>{{player[9]}}</td> <!-- rbi -->
+      	<td>{{player[10]}}</td> <!-- bb -->
+      	<td>{{player[14]}}</td> <!-- k -->
+      	<td>{{player[12]}}</td> <!-- sb -->
+      	{% if player[13] > 0 %}
+      	<td>{{player[5]/player[13]}}</td> <!-- avg -->
+      	{% else %}
+      	<td>.000</td>
+      	{% endif %}
+      	{% if player[17] > 0 %}
+      	<td>{{(player[5] + player[10] + player[15] + player[16]) /player[17]}}</td>
+      	{% else %}
+      	<td>.000</td>
+      	{% endif %}
+      	
       	</tr>
       	{% endfor %} 
 	    </table>

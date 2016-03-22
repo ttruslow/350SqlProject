@@ -195,3 +195,21 @@ fieldset p{
   clear: both;
   padding: 5px;
 }
+table {
+	margin: 0 0 2em 0;
+	width: 100%;
+}
+table tbody tr {
+	border: solid 1px #efefef;
+	border-left: 0;
+	border-right: 0;
+}
+
+table tbody tr:nth-child(2n + 1) {
+	background-color: #f7f7f7;
+}
+
+table td {
+	padding: 0.75em 0.75em;
+}
+
