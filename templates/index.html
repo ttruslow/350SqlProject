@@ -1,34 +1,114 @@
-{% extends "layout.html" %}
-
-{% block content %}
-<div id="main_part">
-  <div id="main_part_in">
-    <h2>StatTrack</h2>
-    <p>The free way to keep track of all of your team's statistics</p>
+<!DOCTYPE html>
+<html ng-app="statTrackChat">
+  <head>
+    <title>StatTrack</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link rel="stylesheet" href="static/styles/reset.css" type="text/css">
+    <link rel="stylesheet" href="static/styles/styl.css" type="text/css">
+    <meta name="viewport" content="width=device-width">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.4/socket.io.js"></script>
+    <script src="static/js/controller.js"></script>
+    <script src="static/js/jquery.tools.min.js"></script>
+ 
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+  <div id="header">
+    <div id="header_in">
+      <h1><a href="/"><b>StatTrack</b></a></h1>
+      <div id="menu">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li {% if selectedMenu == "loggedOut" %} class="selected" {% endif %}>
+          <li><a href="about">About</a></li>
+          {% if selectedMenu == "loggedOut" %}
+          <li><a href="createTeam">Create Team</a></li>
+          <li><a href="login">Login</a></li>
+          {% endif %}
+          {% if selectedMenu == "loggedIn" %}
+          <li><a href="myTeam">My Team</a></li>
+          <li><a href="logout">Log Out</a></li>
+          <li><a>Current user: {{user[0]}}</a></li>
+          {% endif %}
+          
+          
+        </ul>
+      </div>
+    </div>
   </div>
-  <div class="button_main">
-    <div class="pxline"></div>
-    <a href="/createTeam" class="button_dark">Sign Up</a> </div>
-</div>
-
-<div id="content">
-  <div class="thirds">
-    <h3>Information regarding our next web chat:</h3>
-    <p> Date: {{livechatinfo.date}}<br /> Time: {{livechatinfo.time}}<br /> Subject: {{livechatinfo.subject}}</p>
+  <!------------------------------------------------------------------------------------------------------------------------>
+  
+  <div id="main_part">
+    <div id="main_part_in">
+      <h2>StatTrack</h2>
+      <p>The free way to keep track of all of your team's statistics</p>
+    </div>
+    <div class="button_main">
+      <div class="pxline"></div>
+      <a href="/createTeam" class="button_dark">Sign Up</a> </div>
   </div>
-  <div class="thirds">
-    <h3>Team member available for chat?</h3>
-    {% if coachAvailable %}
-    <p> Yes!</p>
-    {% else %}
-    <p> No. Please try again tomorrow!</p>
-    {% endif %}
+  
+  <div id="content">
+    <hr class="cleanit">
+      <h3>About Us</h3>
+      <p class="about">StatTrack is a web app, built to allow coaches or official scorers for baseball/softball teams to digitally keep stats for their teams without the hassle of dealing with a scorebook... </p>
+      <a href="about" class="button_light" >LEARN MORE</a> </div>
+      
+    <div align="center" class="thirds">
+      <h3>See what our users are saying!</h3>
+      <!--<h3>Information regarding our next web chat:</h3>
+      <p> Date: {{livechatinfo.date}}<br /> Time: {{livechatinfo.time}}<br /> Subject: {{livechatinfo.subject}}</p> -->
+      <div class="container" ng-controller="ChatController">
+  
+        <div class="wrapper">
+          <!--<p>Name: <span ng-bind="$scope.loggedIn"></span>-->
+            <!--<input type="text"  ng-model="name" ng-change="setName()" placeholder="Username" size="14" /></p> -->
+           <div class="scroll" id="msgpane">
+           <p ng-repeat="msg in messages">
+             <b ng-bind="msg.name"></b>:&nbsp;
+             <span ng-bind="msg.text"></span>
+            
+                </p>
+           
+        </div>
+           
+           {% if selectedMenu == "loggedIn" %}
+           <form ng-submit="send()">
+                
+                  <input type="text"  ng-model="text" size="30"  placeholder="Tell us what you think of StatTrack!">
+                  <input type="submit"  value="Submit Comment">
+               
+            </form>
+            {% endif %}
+        
+  
+      </div>
+      <script src="static/js/scale.fix.js"></script>
+      </div>
+    </div>
+    <div class="thirds">
+      <h3>Team member available for chat?</h3>
+      {% if coachAvailable %}
+      <p> Yes!</p>
+      {% else %}
+      <p> No. Please try again tomorrow!</p>
+      {% endif %}
+    </div>
+    
   </div>
+  
   <hr class="cleanit">
-    <h3>About Us</h3>
-    <p class="about">StatTrack is a web app, built to allow coaches or official scorers for baseball/softball teams to digitally keep stats for their teams without the hassle of dealing with a scorebook... </p>
-    <a href="about" class="button_light">LEARN MORE</a> </div>
-</div>
-
-{% endblock %}
-
+  <div id="footer">
+    <div id="footer_in">
+      <p>Copyright &copy; 2016 <a href="/">StatTrack</a>. All Rights Reserved</p>
+      <span>Design By: <a href="http://ries.cz">T.Truslow</a></span></div>
+  </div>
+  <script>
+  $(function () {
+      $("ul.controls").tabs("div.testimonials > div");
+  });
+  </script>
+  </body>
+</html>

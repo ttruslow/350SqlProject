@@ -4,6 +4,19 @@
 
 {% block content %}
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () { //
+            $(".longString").each(function () {
+                var maxwidth = 5;
+                if ($(this).text().length > maxwidth) {
+                    $(this).text($(this).text().substring(0, maxwidth));
+                    $(this).html($(this).html() + '');
+                }
+            });
+        });
+    </script>
+
 <div id="main_part_inner">
   <div id="main_part_inner_in">
     <h2>{{user[0]}} Homepage</h2>
@@ -51,7 +64,7 @@
         <option value="walk" >Walk</option>
         <option value="hitbypitch" >Hit By Pitch</option>
         <option value="flyout" >Flyout</option>
-        <option value="groudout" >Groundout</option>
+        <option value="groundout" >Groundout</option>
         <option value="onbyerror" >On By Error</option>
         <option value="strikeout" >Strikeout</option>
         <option value="sacbunt" >Sac Bunt</option>
@@ -103,14 +116,14 @@
       	<td>{{player[14]}}</td> <!-- k -->
       	<td>{{player[12]}}</td> <!-- sb -->
       	{% if player[13] > 0 %}
-      	<td>{{player[5]/player[13]}}</td> <!-- avg -->
+      	<td class="longString">{{(player[5]/player[13])}}</td> <!-- avg -->
       	{% else %}
-      	<td>.000</td>
+      	<td>0.000</td>
       	{% endif %}
       	{% if player[17] > 0 %}
-      	<td>{{(player[5] + player[10] + player[15] + player[16]) /player[17]}}</td>
+      	<td class="longString">{{(player[5] + player[10] + player[15] + player[16]) /player[17]}}</td>
       	{% else %}
-      	<td>.000</td>
+      	<td>0.000</td>
       	{% endif %}
       	
       	</tr>

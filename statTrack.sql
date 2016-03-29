@@ -44,3 +44,12 @@ primary key(playerid) );
 
 GRANT all ON players to tracker;
 GRANT usage on sequence players_playerid_seq to tracker;
+
+create table messages (
+messageid serial NOT NULL,
+author varchar (35) references teams(teamname),
+message text NOT NULL default '',
+primary key(messageid) );
+
+GRANT all ON messages to tracker;
+GRANT usage on sequence messages_messageid_seq to tracker;

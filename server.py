@@ -1,12 +1,20 @@
 import os
+import sys
+import uuid
 import psycopg2
 import psycopg2.extras
 
 from flask import Flask, render_template, request, session, redirect, url_for
+from flask.ext.socketio import SocketIO, emit
 app = Flask(__name__)
-app.secret_key = os.urandom(24).encode('hex')
 
+#app = Flask(__name__, static_url_path='')
+app.config['SECRET_KEY'] = 'secret!'
+app.secret_key = os.urandom(24).encode('hex')
+socketio = SocketIO(app)
 user = ['', '']
+users = {}
+messages = []
 
 def connectToDb():
     connectionString = 'dbname=stattrack user=tracker password=baseball host=localhost'
@@ -15,6 +23,55 @@ def connectToDb():
         return psycopg2.connect(connectionString)
     except:
         print("Can't connect to database")
+        
+@socketio.on('connect', namespace='/statTrack')
+def makeConnection():
+    conn = connectToDb()
+    cur = conn.cursor()
+    print ('connected')
+    if 'teamName' in session:
+        print("INDEX: IN SESSION")
+        user = [session['teamName'], session['password']]
+        selectedMenu = 'loggedIn'
+    else:
+        user = ['Not Logged In','']
+        print("INDEX: NOT IN SESSION")
+        selectedMenu = 'loggedOut'
+    
+    query = "select * from messages;"
+    try:
+        cur.execute(query)
+    except:
+        print("could not retrieve existing messages")
+    messages = cur.fetchall()
+    print(messages)
+    
+    for message in messages:
+        print(message)
+        msg = {"text": message[2], "name": message[1]}
+        emit('message', msg)
+
+@socketio.on('message', namespace='/statTrack')
+def new_message(message):
+    conn = connectToDb()
+    cur = conn.cursor()
+    tmp = {'text': message, 'name': session['teamName']}
+    print(tmp)
+    messages.append(tmp)
+    try:
+        cur.execute("INSERT INTO messages (author, message) VALUES (%s, %s);", (session['teamName'], message))
+    except:
+        print("Error adding to db")
+        print(" Tried: INSERT INTO messages (author, message) VALUES (%s, %s);", (session['teamName'], message))
+        conn.rollback()
+    conn.commit()
+    print("TEST IN MESSAGE")
+    emit('message', tmp, broadcast=True)
+    
+@socketio.on('identify', namespace='/statTrack')
+def on_identify(message):
+    print('identify ' + message)
+    users[session['teamName']] = {'username': message}
 
 @app.route('/', methods=['GET','POST'])
 def mainIndex():
@@ -28,7 +85,7 @@ def mainIndex():
         print("INDEX: NOT IN SESSION")
         selectedMenu = 'loggedOut'
     livechatinfo = {'date': 'March 15th', 'time': '7:00', 'subject': 'StatTrack\'s newest features'}
-    coachAvailable = False
+    coachAvailable = True
     return render_template('index.html', livechatinfo = livechatinfo, coachAvailable = coachAvailable, user=user, selectedMenu=selectedMenu)
     
 @app.route('/about', methods=['GET','POST'])
@@ -212,7 +269,6 @@ def teamPage():
                 cur.execute("update players set ab = ab + 1 where playerid = %s;", (playerchosen,))
                 cur.execute("update players set strikeouts = strikeouts + 1 where playerid = %s;", (playerchosen,))
             if result == 'sacbunt':
-                cur.execute("update players set pa = pa + 1 where playerid = %s;", (playerchosen,))
                 if rbis == 1:
                     cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
             if result == 'sacfly':
@@ -228,7 +284,8 @@ def teamPage():
         print("Request method is GET")
     
     conn.commit()
-    cur.execute("select firstname, lastname, number, position, playerid, hits, doubles, triples, homeruns, rbi, walks, runs, stolenbases, ab, strikeouts, hitbypitch, onbyerror, pa from players where team = %s;", (team,))
+    #cur.execute("select firstname, lastname, number, position, playerid, hits, doubles, triples, homeruns, rbi, walks, runs, stolenbases, ab, strikeouts, hitbypitch, onbyerror, pa from players where team = %s;", (team,))
+    cur.execute("select players.firstname, players.lastname, players.number, players.position, players.playerid, players.hits, players.doubles, players.triples, players.homeruns, players.rbi, players.walks, players.runs, players.stolenbases, players.ab, players.strikeouts, players.hitbypitch, players.onbyerror, players.pa, teams.teamname from players JOIN teams on players.team = teams.teamname AND players.team = %s;", (team,))
     playerList = cur.fetchall();
         
     return render_template('myTeam.html', user=user, selectedMenu=selectedMenu, playerList = playerList)
@@ -238,8 +295,8 @@ def logout():
     session.pop('teamName', None)
     return redirect(url_for('mainIndex'))
 
-
-
 # start the server
 if __name__ == '__main__':
-    app.run(host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)
+    #app.run(host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)
+    socketio.run(app, host=os.getenv('IP', '0.0.0.0'), port =int(os.getenv('PORT', 8080)), debug=True)
+        
