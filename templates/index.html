@@ -55,29 +55,23 @@
       <h3>About Us</h3>
       <p class="about">StatTrack is a web app, built to allow coaches or official scorers for baseball/softball teams to digitally keep stats for their teams without the hassle of dealing with a scorebook... </p>
       <a href="about" class="button_light" >LEARN MORE</a> </div>
+      <br><br><br>
       
-    <div align="center" class="thirds">
-      <h3>See what our users are saying!</h3>
-      <!--<h3>Information regarding our next web chat:</h3>
-      <p> Date: {{livechatinfo.date}}<br /> Time: {{livechatinfo.time}}<br /> Subject: {{livechatinfo.subject}}</p> -->
+    <div align="center" class="content">
+      <h3><u>See what our users are saying!</u></h3>
       <div class="container" ng-controller="ChatController">
-  
         <div class="wrapper">
-          <!--<p>Name: <span ng-bind="$scope.loggedIn"></span>-->
-            <!--<input type="text"  ng-model="name" ng-change="setName()" placeholder="Username" size="14" /></p> -->
            <div class="scroll" id="msgpane">
            <p ng-repeat="msg in messages">
              <b ng-bind="msg.name"></b>:&nbsp;
              <span ng-bind="msg.text"></span>
-            
                 </p>
-           
         </div>
-           
+           <br>
            {% if selectedMenu == "loggedIn" %}
            <form ng-submit="send()">
                 
-                  <input type="text"  ng-model="text" size="30"  placeholder="Tell us what you think of StatTrack!">
+                  <input type="text"  ng-model="text" size="30"  placeholder="Tell us what YOU think of StatTrack!">
                   <input type="submit"  value="Submit Comment">
                
             </form>
@@ -87,14 +81,6 @@
       </div>
       <script src="static/js/scale.fix.js"></script>
       </div>
-    </div>
-    <div class="thirds">
-      <h3>Team member available for chat?</h3>
-      {% if coachAvailable %}
-      <p> Yes!</p>
-      {% else %}
-      <p> No. Please try again tomorrow!</p>
-      {% endif %}
     </div>
     
   </div>

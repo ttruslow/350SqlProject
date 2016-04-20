@@ -35,7 +35,7 @@
             
         
             <label for="number">Uniform Number: </label><input type="number" name="number" id="number" min="0" max="99" step="1" value ="0"/>
-            <select name = "position">
+            <label for="number">Pos: </label><select name = "position">
               <option value="P">P</option>
               <option value="C">C</option>
               <option value="1B">1B</option>
@@ -130,6 +130,50 @@
       	{% endfor %} 
 	    </table>
     </section>
+    
+    <style>
+    .buttons { 
+      width: 160%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      }
+    .buttons button { 
+      width: 100%;
+    }
+    </style>
+    <hr class="cleanit">
+      <section>
+        <h1><u>Make a mistake? Fix it!</u></h1>
+        <br>
+        <h2>Select a player and then press the button with the correction that you would like to make. Don't worry about the adjusted AB's or averages. We'll take care of that for you! </h2>
+        <br><table class="buttons">
+          <tr><form method="post" action="/myTeam">
+            <p><select name="player">
+              {% for player in playerList %}
+              <option name="player" value="{{player[4]}}" >#{{player[2]}}   {{player[0]}} {{player[1]}} </option>
+              {% endfor %}
+            </select>
+            </p>
+          </tr><br>
+          <tr>
+            <td><input type="submit" name="submit" value="-1 Single"></td>
+            <td><input type="submit" name="submit" value="-1 Double"></td>
+            <td><input type="submit" name="submit" value="-1 Triple"></td>
+            <td><input type="submit" name="submit" value="-1 Homerun"></td>
+            <td><input type="submit" name="submit" value="-1 Base on Balls"></td>
+            <td><input type="submit" name="submit" value="-1 Strikeout"></td>
+            <td><input type="submit" name="submit" value="-1 Run"></td></tr>
+            <tr><td><input type="submit" name="submit" value="-1 SB"></td>
+            <td><input type="submit" name="submit" value="-1 On By Error"></td>
+            <td><input type="submit" name="submit" value="-1 Groundout"></td>
+            <td><input type="submit" name="submit" value="-1 Flyout"></td>
+            <td><input type="submit" name="submit" value="-1 Sac Fly"></td>
+            <td><input type="submit" name="submit" value="-1 Sac Bunt"></td>
+            <td><input type="submit" name="submit" value="-1 Hit By Pitch"></td>
+          </tr></form>
+        </table>
+        
+      </section>
     
   </hr>
     

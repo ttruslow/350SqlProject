@@ -234,7 +234,7 @@ def teamPage():
                 cur.execute("update players set hits = hits + 1 where playerid = %s;", (playerchosen,))
                 cur.execute("update players set homeruns = homeruns + 1 where playerid = %s;", (playerchosen,))
                 cur.execute("update players set runs = runs + 1 where playerid = %s;", (playerchosen,))
-                if rbis == 0:
+                if rbis == '0':
                     cur.execute("update players set rbi = rbi + 1 where playerid = %s;", (playerchosen,))
                 else:
                     cur.execute("update players set rbi = rbi + %s where playerid = %s;", (rbis, playerchosen))
@@ -279,12 +279,157 @@ def teamPage():
                 cur.execute("update players set stolenbases = stolenbases + 1 where playerid = %s;", (playerchosen,))
             if result == 'runscored':
                 cur.execute("update players set runs = runs + 1 where playerid = %s;", (playerchosen,))
+                
+        if request.form['submit'] == '-1 Single':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select singles from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set singles = singles - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Double':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select doubles from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set doubles = doubles - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Triple':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select triples from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set triples = triples - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Homerun':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select homeruns from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set hits = hits - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set homeruns = homeruns - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Base on Balls':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select walks from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set walks = walks - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Strikeout':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select strikeouts from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set strikeouts = strikeouts - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Run':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select runs from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set runs = runs - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 SB':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select stolenbases from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set stolenbases = stolenbases - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 On by Error':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select onbyerror from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set onbyerror = onbyerror - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Groundout':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select groundouts from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set groundouts = groundouts - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Flyout':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select flyouts from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set ab = ab - 1 where playerid = %s;", (playerchosen,))
+                cur.execute("update players set flyouts = flyouts - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Sac Fly':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select pa from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Sac Bunt':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            
+        if request.form['submit'] == '-1 Hit By Pitch':
+            playerchosen = request.form['player']
+            print("playerchosen: %s", (playerchosen,))
+            cur.execute("select pa from players where playerid = %s;", (playerchosen,))
+            temp = cur.fetchone()
+            print("Temp: %s", (temp,))
+            if temp[0] > 0:
+                cur.execute("update players set pa = pa - 1 where playerid = %s;", (playerchosen,))
         
     else:
         print("Request method is GET")
     
-    conn.commit()
+    
     #cur.execute("select firstname, lastname, number, position, playerid, hits, doubles, triples, homeruns, rbi, walks, runs, stolenbases, ab, strikeouts, hitbypitch, onbyerror, pa from players where team = %s;", (team,))
+    
+    
+    conn.commit()
     cur.execute("select players.firstname, players.lastname, players.number, players.position, players.playerid, players.hits, players.doubles, players.triples, players.homeruns, players.rbi, players.walks, players.runs, players.stolenbases, players.ab, players.strikeouts, players.hitbypitch, players.onbyerror, players.pa, teams.teamname from players JOIN teams on players.team = teams.teamname AND players.team = %s;", (team,))
     playerList = cur.fetchall();
         

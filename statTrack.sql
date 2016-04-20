@@ -11,6 +11,7 @@ CREATE TABLE teams (
   PRIMARY KEY  (teamname)
 ) ;
 
+CREATE extension pgcrypto;
 CREATE ROLE tracker with login;
 ALTER USER "tracker" WITH PASSWORD 'baseball';
 GRANT select, insert, usage ON teams to tracker;
